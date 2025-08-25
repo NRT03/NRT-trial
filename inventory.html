@@ -257,23 +257,31 @@ table, tbody, tr, td, th{ overflow: visible !important; }
 
 
 
-<style id="nrt-inventory-center-fix-20250825">
-/* Mobile: equal side gaps, no scroll, no badge bleed */
-@media (max-width: 600px){
+
+
+
+<style id="nrt-inventory-fit-final-20250825">
+/* Mobile: perfectly centered table + no badge bleed */
+@media (max-width:600px){
   #inventoryTable{
-    width: calc(100% - 24px) !important; /* equal 12px left & right inside card */
-    margin: 0 12px !important;
+    width: calc(100% - 20px) !important;   /* 10px equal gap on both sides */
+    margin: 0 auto !important;             /* centers inside the card */
     table-layout: fixed !important;
     border-collapse: separate !important;
-    border-spacing: 0 8px !important;    /* vertical spacing only */
+    border-spacing: 0 8px !important;      /* vertical gap only */
   }
+  #inventoryTable th, #inventoryTable td{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box;
+  }
+  /* Slightly narrower text columns so Status has breathing room */
   #inventoryTable thead th:nth-child(1), #inventoryTable tbody td:nth-child(1){ width: 36% !important; } /* Product Type */
   #inventoryTable thead th:nth-child(2), #inventoryTable tbody td:nth-child(2){ width: 34% !important; } /* Model */
   #inventoryTable thead th:nth-child(3), #inventoryTable tbody td:nth-child(3){ width: 30% !important; } /* Status */
-  #inventoryTable th, #inventoryTable td{ padding-left: 10px !important; padding-right: 10px !important; }
-  /* Clip any badge background at cell corners */
-  #inventoryTable td:nth-child(3){ overflow: hidden !important; position: relative; }
-  #inventoryTable .statuspill{ white-space: nowrap !important; display: inline-block; }
+  /* Clip the status badge so red/green never shows outside rounded cell */
+  #inventoryTable td:nth-child(3){ overflow: hidden; position: relative; }
+  #inventoryTable .statuspill{ white-space: nowrap !important; display:inline-block; }
 }
 </style>
 
