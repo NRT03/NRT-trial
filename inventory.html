@@ -279,20 +279,28 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </style>
 
 
-<style id="nrt-inventory-overflow-fix-20250825">
-/* Inventory: keep table inside the white card on phones (no desktop changes) */
-.table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; padding-right:6px; }
-.table-wrap table{ width:100%; max-width:100%; }
+<style id="nrt-inventory-mobile-fit-20250825">
+/* Mobile fit: no horizontal scroll, keep table inside card */
 @media (max-width:600px){
-  /* Remove horizontal gutters that caused right-edge bleed */
-  #inventoryTable{ border-collapse:separate !important; border-spacing:0 8px !important; table-layout:fixed !important; }
-  /* Rebalance column widths to give Status more room */
-  #inventoryTable thead th:nth-child(1), #inventoryTable tbody td:nth-child(1){ width:42% !important; }  /* Product Type */
-  #inventoryTable thead th:nth-child(2), #inventoryTable tbody td:nth-child(2){ width:31% !important; }  /* Model */
-  #inventoryTable thead th:nth-child(3), #inventoryTable tbody td:nth-child(3){ width:27% !important; }  /* Status */
-  #inventoryTable .statuspill{ white-space:nowrap !important; width:auto !important; min-width:76px !important; }
-  #inventoryTable th, #inventoryTable td{ padding-left:8px !important; padding-right:8px !important; box-sizing:border-box; }
+  #inventoryTable{
+    width:100% !important;
+    table-layout:fixed !important;
+    border-collapse:separate !important;
+    border-spacing:0 8px !important; /* vertical gap only */
+  }
+  #inventoryTable th, #inventoryTable td{
+    padding-left:8px !important;
+    padding-right:8px !important;
+    box-sizing:border-box;
+  }
+  /* Rebalance to remove the tiny cut on the right without scrolling */
+  #inventoryTable thead th:nth-child(1), #inventoryTable tbody td:nth-child(1){ width:40% !important; } /* Product Type */
+  #inventoryTable thead th:nth-child(2), #inventoryTable tbody td:nth-child(2){ width:33% !important; } /* Model */
+  #inventoryTable thead th:nth-child(3), #inventoryTable tbody td:nth-child(3){ width:27% !important; } /* Status */
+  #inventoryTable .statuspill{ white-space:nowrap !important; min-width:72px !important; }
 }
+/* Safety: prevent any accidental page-level horizontal scroll */
+html, body { overflow-x:hidden; }
 </style>
 
 </head>
@@ -319,7 +327,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </div>
 </div>
 <div class="card">
-<div class="table-wrap">
 <table id="inventoryTable">
 <thead><tr>
 <th>Product Type</th><th>Model</th><th class="center">Status</th>
@@ -327,7 +334,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </tr></thead>
 <tbody id="tbl"></tbody>
 </table>
-</div>
 <div class="sticky-foot"><span class="muted">Tip: On Hand is auto‑saved. Inventory = OnHand × Wholesale × (1 + OpCost%).</span></div>
 </div>
 </div>
