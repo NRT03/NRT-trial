@@ -279,28 +279,30 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </style>
 
 
-<style id="nrt-inventory-mobile-fit-20250825">
-/* Mobile fit: no horizontal scroll, keep table inside card */
-@media (max-width:600px){
-  #inventoryTable{
-    width:100% !important;
-    table-layout:fixed !important;
-    border-collapse:separate !important;
-    border-spacing:0 8px !important; /* vertical gap only */
+<style id="nrt-inventory-centered-20250825">
+@media (max-width: 600px) {
+  #inventoryTable {
+    width: calc(100% - 24px) !important;
+    margin: 0 12px !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 0 8px !important;
   }
-  #inventoryTable th, #inventoryTable td{
-    padding-left:8px !important;
-    padding-right:8px !important;
-    box-sizing:border-box;
+  #inventoryTable th, #inventoryTable td {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    box-sizing: border-box;
   }
-  /* Rebalance to remove the tiny cut on the right without scrolling */
-  #inventoryTable thead th:nth-child(1), #inventoryTable tbody td:nth-child(1){ width:40% !important; } /* Product Type */
-  #inventoryTable thead th:nth-child(2), #inventoryTable tbody td:nth-child(2){ width:33% !important; } /* Model */
-  #inventoryTable thead th:nth-child(3), #inventoryTable tbody td:nth-child(3){ width:27% !important; } /* Status */
-  #inventoryTable .statuspill{ white-space:nowrap !important; min-width:72px !important; }
+  #inventoryTable thead th:nth-child(1),
+  #inventoryTable tbody td:nth-child(1){ width: 37% !important; }
+  #inventoryTable thead th:nth-child(2),
+  #inventoryTable tbody td:nth-child(2){ width: 33% !important; }
+  #inventoryTable thead th:nth-child(3),
+  #inventoryTable tbody td:nth-child(3){ width: 30% !important; }
+  #inventoryTable td:nth-child(3){ overflow: hidden; position: relative; }
+  #inventoryTable .statuspill { white-space: nowrap !important; display: inline-block; }
 }
-/* Safety: prevent any accidental page-level horizontal scroll */
-html, body { overflow-x:hidden; }
+html, body { overflow-x: hidden; }
 </style>
 
 </head>
