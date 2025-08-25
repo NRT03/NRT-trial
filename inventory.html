@@ -278,25 +278,6 @@ table, tbody, tr, td, th{ overflow: visible !important; }
 html, body { max-width: 100%; overflow-x: hidden; }
 </style>
 
-
-<style id="nrt-inventory-onhand-center-20250825">
-/* Desktop-only centering for the "On Hand" control */
-@media (min-width: 769px){
-  /* Turn the 4th column cells into a tiny grid to center content perfectly */
-  #inventoryTable td:nth-child(4){
-    display: grid !important;
-    place-items: center !important;   /* centers both horizontally & vertically */
-  }
-  /* Keep the qty control neat */
-  #inventoryTable td:nth-child(4) .qty{
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 10px;
-    margin: 0 !important;             /* grid handles centering */
-  }
-}
-</style>
-
 </head>
 <body>
 <div class="wrap">

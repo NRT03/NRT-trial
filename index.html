@@ -973,6 +973,42 @@ table, tbody, tr, td, th{ overflow: visible !important; }
 }
 </style>
 
+
+<!-- NRT: Mobile UI polish 2025-08-25 -->
+<style id="nrt-mobile-polish-20250825">
+/* 1) Saved Entries: align cards perfectly with container and toolbar buttons */
+@media (max-width: 640px){
+  /* remove any side drift; keep equal left/right gutters */
+  .saved-card{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  /* ensure the 3 action buttons feel balanced on one line */
+  .saved-card button{
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+}
+
+/* 3) Manage Product Types & Models: give the options breathing room
+      so the dropdown looks like it's held by the card */
+#manageCatalog .dropdown,
+#catalogSimple .dd{
+  top: calc(100% + 10px) !important;  /* space below the search bar */
+  margin-top: 0 !important;
+  padding-top: 4px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 12px 24px rgba(2,6,23,.10) !important;
+}
+/* keep parent from clipping the dropdown */
+#manageCatalog .row,
+#catalogSimple .row,
+#manageCatalog,
+#catalogSimple{ overflow: visible !important; }
+</style>
+
 </head>
 <body><div class="wrap">
 <div class="card">
@@ -2674,4 +2710,34 @@ html, body{ max-width:100%; overflow-x:hidden; }
   }, true);
 })();
 </script>
+
+<!-- NRT: Modal behavior tweaks 2025-08-25 -->
+<script id="nrt-modal-logic-20250825">
+(function(){
+  // 2) Manage Contacts: only one open at a time
+  const panel = document.querySelector('#manageContacts');
+  if(panel){
+    panel.addEventListener('focusin', (e)=>{
+      const row = e.target.closest('.rowitem');
+      if(!row) return;
+      // collapse others
+      panel.querySelectorAll('.rowitem.is-expanded').forEach(el=>{
+        if(el !== row) el.classList.remove('is-expanded');
+      });
+      // expand current
+      row.classList.add('is-expanded');
+    });
+    // Also handle taps anywhere inside a row
+    panel.addEventListener('click', (e)=>{
+      const row = e.target.closest('.rowitem');
+      if(!row) return;
+      panel.querySelectorAll('.rowitem.is-expanded').forEach(el=>{
+        if(el !== row) el.classList.remove('is-expanded');
+      });
+      row.classList.add('is-expanded');
+    });
+  }
+})();
+</script>
+
 </body>
