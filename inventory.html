@@ -254,75 +254,50 @@ table, tbody, tr, td, th{ overflow: visible !important; }
 </style>
 
 
-<style id="nrt-inventory-mobile-fix-20250819">
-/* === Inventory: mobile table cleanup (headers align, no overflow) ======= */
-#inventoryTable{ table-layout: fixed !important; width:100% !important; }
-#inventoryTable th, #inventoryTable td{
-  white-space: normal !important;
-  word-break: break-word !important;
-  overflow-wrap: anywhere !important;
-  vertical-align: middle !important;
-}
-/* Tighten spacing and font on small screens for better fit */
-@media (max-width: 600px){
-  #inventoryTable th, #inventoryTable td{
-    font-size: 13px !important;
-    padding: 6px 8px !important;
-    line-height: 1.25 !important;
-  }
-  /* Keep status pill centered and prevent stretching */
-  #inventoryTable .statuscell{ display:flex !important; align-items:center !important; justify-content:center !important; }
-  #inventoryTable .statuspill{ width:auto !important; min-width:72px !important; }
-}
-/* Prevent table from adding unexpected horizontal scroll */
-html, body { max-width: 100%; overflow-x: hidden; }
-</style>
 
 
-<style id="nrt-inventory-consolidated-20250825">
-/* --- Global fixes (all viewports) --- */
+
+<style id="nrt-inventory-fix-20250825-final">
+/* --- Universal: Status cell should clip pills cleanly --- */
 #inventoryTable td:nth-child(3){
-  /* Make the Status cell border crisp and stop any bleed */
   overflow: hidden !important;
-  border-radius: 10px !important;
+  border-radius: 12px !important;
   background-clip: padding-box !important;
+  position: relative !important;
 }
-#inventoryTable .statuspill{
-  box-shadow: none !important;
-}
-/* If any row gets a `.low` background, neutralize to avoid bleed in gaps */
+#inventoryTable .statuspill{ box-shadow: none !important; }
+
+/* Neutralize any row-level low tint that might show between rows */
 #inventoryTable tr.low{ background: transparent !important; }
 
-/* --- Mobile: perfect centering + balanced columns --- */
-@media (max-width: 600px){
+/* --- Mobile (≤600px): stop overflow and center table perfectly --- */
+@media (max-width:600px){
+  /* Table exactly centered inside card with equal padding both sides */
   #inventoryTable{
-    width: calc(100% - 32px) !important;  /* equal 16px gap both sides inside card */
+    width: calc(100% - 32px) !important;   /* 16px gap on both sides */
     margin: 0 auto !important;
     table-layout: fixed !important;
     border-collapse: separate !important;
-    border-spacing: 0 8px !important;     /* vertical spacing only */
+    border-spacing: 0 10px !important;     /* vertical spacing only */
   }
-  #inventoryTable th, #inventoryTable td{ padding-left:10px !important; padding-right:10px !important; }
-  #inventoryTable th:nth-child(1), #inventoryTable td:nth-child(1){ width: 34% !important; } /* Product Type */
+  /* Balanced columns so Status never overflows */
+  #inventoryTable th:nth-child(1), #inventoryTable td:nth-child(1){ width: 34% !important; } /* Product */
   #inventoryTable th:nth-child(2), #inventoryTable td:nth-child(2){ width: 36% !important; } /* Model */
   #inventoryTable th:nth-child(3), #inventoryTable td:nth-child(3){ width: 30% !important; } /* Status */
-  /* Center the info line under the table to the same width */
-  .sticky-foot{ padding: 0 16px !important; }
-}
-
-/* --- Desktop (>=769px): On Hand aligned perfectly center --- */
-@media (min-width: 769px){
-  #inventoryTable{ table-layout: auto !important; }
-  #inventoryTable th:nth-child(4), #inventoryTable td:nth-child(4){
-    text-align: center !important;
+  /* Comfortable padding & vertical centering */
+  #inventoryTable th, #inventoryTable td{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
     vertical-align: middle !important;
   }
-  #inventoryTable td:nth-child(4){
-    display: flex !important; justify-content: center !important; align-items: center !important;
-  }
-  #inventoryTable td:nth-child(4) .qty{
-    margin-left: auto !important; margin-right: auto !important;
-    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  /* The helper line under the table aligns to table width */
+  .sticky-foot{ width: calc(100% - 32px) !important; margin: 0 auto !important; }
+}
+
+/* --- Desktop (≥769px): ensure On Hand control is centered like others --- */
+@media (min-width:769px){
+  #inventoryTable td:nth-child(4){ 
+    display:flex !important; justify-content:center !important; align-items:center !important;
   }
 }
 </style>
@@ -769,23 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 
-<style id="nrt-inventory-mobile-patch-0823">
-@media (max-width: 600px){
-  #inventoryTable th, #inventoryTable td{ overflow: hidden !important; position: relative; }
-  #inventoryTable td.statuscell{ overflow: visible !important; }
-  #inventoryTable .statuspill{
-    white-space: nowrap !important;
-    min-width: 76px !important;
-    display: inline-flex !important; align-items: center !important; justify-content: center !important;
-  }
-  #inventoryTable tr:not(.expanded) td:nth-child(4),
-  #inventoryTable tr:not(.expanded) td:nth-child(5),
-  #inventoryTable tr:not(.expanded) td:nth-child(6),
-  #inventoryTable tr:not(.expanded) td:nth-child(8){
-    display: none !important; pointer-events: none !important; visibility: hidden !important;
-  }
-}
-</style>
+
 
 <script id="nrt-inventory-mobile-js-0823">
 (function(){
@@ -819,162 +778,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 
-<style id="nrt-inventory-fix-20250823D">
-/* === PC (desktop) — center the entire "On Hand" control (column 4) === */
-@media (min-width: 769px){
-  #inventoryTable td:nth-child(4){
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  #inventoryTable td:nth-child(4) .qty{
-    margin: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  #inventoryTable td:nth-child(4) .qty button{ width: 36px !important; } /* symmetry */
-}
 
-/* === Mobile — only adjust cols 1,2,3(Status),7(Inventory) as discussed === */
-@media (max-width: 600px){
-  #inventoryTable{ table-layout: fixed !important; width:100% !important; }
-  #inventoryTable th, #inventoryTable td{ vertical-align: middle !important; }
-  #inventoryTable td{ padding-top: 12px !important; padding-bottom: 12px !important; }
 
-  /* Wider Product Type & Model so text doesn't stack vertically */
-  #inventoryTable th:nth-child(1), #inventoryTable td:nth-child(1){
-    width: 40% !important; white-space: normal !important; word-break: break-word; overflow-wrap: anywhere;
-  }
-  #inventoryTable th:nth-child(2), #inventoryTable td:nth-child(2){
-    width: 22% !important; white-space: normal !important; word-break: break-word; overflow-wrap: anywhere;
-  }
 
-  /* Status column: full cell height, centered pill, no odd background */
-  #inventoryTable th:nth-child(3), #inventoryTable td:nth-child(3){
-    width: 18% !important; text-align: center !important; background: #fff !important;
-  }
-  #inventoryTable td:nth-child(3) .pill,
-  #inventoryTable td:nth-child(3) .statuspill{
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 26px !important;  /* matches other cells visually */
-    padding: 4px 10px !important;
-    font-size: 12px !important;
-    white-space: nowrap !important;
-  }
 
-  /* Inventory (BDT) — header wraps cleanly, numbers align right */
-  #inventoryTable th:nth-child(7), #inventoryTable td:nth-child(7){
-    width: 20% !important; text-align: right !important;
-  }
-  #inventoryTable th:nth-child(7){
-    white-space: normal !important;
-    line-height: 1.2 !important;
-    font-size: 12px !important;
-  }
-}
-</style>
 
-<style id="nrt-inventory-fix-20250823E">
-/* === DESKTOP (PC): restore normal table layout & center 'On Hand' === */
-@media (min-width: 769px){
-  /* Revert any flex display on the td that broke row layout */
-  #inventoryTable td:nth-child(4){
-    display: table-cell !important;
-    vertical-align: middle !important;
-    text-align: center !important;
-  }
-  /* Center the qty control without changing table layout */
-  #inventoryTable td:nth-child(4) .qty{
-    margin-left: auto !important;
-    margin-right: auto !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-}
 
-/* === MOBILE: prevent overlap; allow names to wrap cleanly === */
-@media (max-width: 600px){
-  #inventoryTable{ table-layout: fixed !important; width: 100% !important; }
-  #inventoryTable th, #inventoryTable td{ vertical-align: middle !important; }
-  #inventoryTable tbody td{ padding-top: 12px !important; padding-bottom: 12px !important; }
 
-  /* Column widths tuned to avoid collisions */
-  #inventoryTable th:nth-child(1), #inventoryTable td:nth-child(1){ /* Product Type */
-    width: 38% !important; white-space: normal !important; word-break: break-word; overflow-wrap: anywhere;
-  }
-  #inventoryTable th:nth-child(2), #inventoryTable td:nth-child(2){ /* Model */
-    width: 26% !important; white-space: normal !important; word-break: break-word; overflow-wrap: anywhere;
-  }
-  #inventoryTable th:nth-child(3), #inventoryTable td:nth-child(3){ /* Status */
-    width: 18% !important; text-align: center !important; overflow: hidden !important;
-  }
-  #inventoryTable th:nth-child(7), #inventoryTable td:nth-child(7){ /* Inventory (BDT) */
-    width: 18% !important; text-align: right !important;
-  }
-  #inventoryTable th:nth-child(7){
-    white-space: normal !important; line-height: 1.2 !important; font-size: 12px !important;
-  }
-
-  /* Status pill fits within cell and stays horizontal */
-  #inventoryTable td:nth-child(3) .pill,
-  #inventoryTable td:nth-child(3) .statuspill{
-    display: inline-flex !important;
-    max-width: 100% !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 11px !important;
-    padding: 4px 8px !important;
-    white-space: nowrap !important;
-  }
-}
-</style>
-
-<style id="nrt-inventory-fix-20250823F">
-/* ===== PC: prevent 'On Hand' from overlapping 'Wholesale' ===== */
-@media (min-width: 769px){
-  /* Keep auto table layout and constrain the 4th column */
-  #inventoryTable{ table-layout: auto !important; }
-  #inventoryTable th:nth-child(4), #inventoryTable td:nth-child(4){
-    width: 160px !important;           /* steady width for qty control */
-    overflow: hidden !important;        /* clip anything that might spill */
-    white-space: nowrap !important;
-    text-align: center !important;
-    vertical-align: middle !important;
-  }
-  #inventoryTable td:nth-child(4) .qty{
-    max-width: 140px !important;        /* fits inside the cell */
-    width: 140px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-}
-</style>
-
-<style id="nrt-inventory-wrap-20250823I">
-/* === Mobile: allow Product Type & Model to wrap at spaces; protect Status/Inventory === */
-@media (max-width: 600px){
-  /* Names wrap on multiple lines (break at spaces, not mid‑word) */
-  #inventoryTable th:nth-child(1), #inventoryTable td:nth-child(1),
-  #inventoryTable th:nth-child(2), #inventoryTable td:nth-child(2){
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: break-word !important; /* only break long words if needed */
-  }
-  /* Remove the earlier forced min-width on Status to avoid squeezing neighbors */
-  #inventoryTable th:nth-child(3), #inventoryTable td:nth-child(3){
-    min-width: unset !important;
-    white-space: nowrap !important; /* keep pill on one line */
-  }
-  /* Keep Inventory header/value on one line */
-  #inventoryTable th:nth-child(7), #inventoryTable td:nth-child(7){
-    white-space: nowrap !important;
-  }
-}
-</style>
 
 <style id="nrt-mobile-cols-FINAL">
 /* === Mobile view (≤600px): show only Product Type, Model, Status === */
