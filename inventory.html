@@ -260,28 +260,32 @@ table, tbody, tr, td, th{ overflow: visible !important; }
 
 
 
-<style id="nrt-inventory-fit-final-20250825">
-/* Mobile: perfectly centered table + no badge bleed */
+<style id="nrt-inventory-perfect-20250825">
+/* Mobile polish: equal edges, consistent rows, no badge bleed */
 @media (max-width:600px){
+  /* 1) Table fills the card's content area exactly */
   #inventoryTable{
-    width: calc(100% - 20px) !important;   /* 10px equal gap on both sides */
-    margin: 0 auto !important;             /* centers inside the card */
+    width: 100% !important;
+    margin: 0 !important;
     table-layout: fixed !important;
     border-collapse: separate !important;
-    border-spacing: 0 8px !important;      /* vertical gap only */
+    border-spacing: 0 8px !important; /* vertical gaps only */
   }
-  #inventoryTable th, #inventoryTable td{
-    padding-left: 10px !important;
-    padding-right: 10px !important;
-    box-sizing: border-box;
-  }
-  /* Slightly narrower text columns so Status has breathing room */
-  #inventoryTable thead th:nth-child(1), #inventoryTable tbody td:nth-child(1){ width: 36% !important; } /* Product Type */
-  #inventoryTable thead th:nth-child(2), #inventoryTable tbody td:nth-child(2){ width: 34% !important; } /* Model */
-  #inventoryTable thead th:nth-child(3), #inventoryTable tbody td:nth-child(3){ width: 30% !important; } /* Status */
-  /* Clip the status badge so red/green never shows outside rounded cell */
-  #inventoryTable td:nth-child(3){ overflow: hidden; position: relative; }
-  #inventoryTable .statuspill{ white-space: nowrap !important; display:inline-block; }
+  /* 2) Balanced columns so Status fits without overflow */
+  #inventoryTable thead th:nth-child(1), #inventoryTable tbody td:nth-child(1){ width: 35% !important; }
+  #inventoryTable thead th:nth-child(2), #inventoryTable tbody td:nth-child(2){ width: 35% !important; }
+  #inventoryTable thead th:nth-child(3), #inventoryTable tbody td:nth-child(3){ width: 30% !important; }
+  /* shrink min-width on Status to avoid forcing extra width */
+  #inventoryTable th:nth-child(3), #inventoryTable td:nth-child(3){ min-width: 88px !important; }
+  /* 3) Clip any pill effect strictly within the rounded cell */
+  #inventoryTable td:nth-child(3){ overflow: hidden !important; position: relative; clip-path: inset(0 round 12px); }
+  /* 4) Keep text wrapping sane; center pill vertically */
+  #inventoryTable th, #inventoryTable td{ padding-left: 10px !important; padding-right: 10px !important; vertical-align: middle !important; }
+  .statuscell{ display:flex !important; justify-content:center !important; align-items:center !important; width:100%; height:100%; }
+  /* 5) Remove row-level LOW background that was visible in the vertical gap */
+  #inventoryTable tr.low{ background: transparent !important; }
+  /* Optional: ensure badges themselves have no shadows that escape */
+  #inventoryTable .statuspill{ box-shadow: none !important; }
 }
 </style>
 
